@@ -36,6 +36,7 @@ class ComponentTitik extends JButton {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 
+                //mengambil ukuran papan
 		// mengambil ukuran grid 1x1
 		int w = super.getWidth();
 		int h = super.getHeight();
