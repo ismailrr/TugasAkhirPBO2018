@@ -101,10 +101,11 @@ class Controller implements ActionListener {
                 } 
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        return;
+                        System.out.println("get point horinzontal");
+                        break outerloop;
                 }
             }
-            
+            arrTmp = new Character[3];
             //Cek Vertical
             outerloop2:
             for(int i=-2; i<= 0;i++){
@@ -115,9 +116,12 @@ class Controller implements ActionListener {
                 }
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        return;
+                        System.out.println("get point vertical");
+                        break outerloop2;
                 }
             }
+            arrTmp = new Character[3];
+            
             //Cek diagonal kiri atas ke kanan bawah
             outerloop3:
             for(int i=-2; i<= 0;i++){
@@ -128,9 +132,12 @@ class Controller implements ActionListener {
                 }
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        return;
+                        System.out.println("get point diagonal negatif");
+                        break outerloop3;
                 }
             }
+            arrTmp = new Character[3];
+            
             //Cek diagonal kanan atas ke kiri bawah
             outerloop4:
             for(int i=-2; i<= 0;i++){
@@ -141,7 +148,8 @@ class Controller implements ActionListener {
                 }   
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        return;
+                        System.out.println("get point diagonal positif");
+                        break outerloop4;
                 }
             }
             System.out.print("Isi arrTmp : ");

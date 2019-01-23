@@ -14,7 +14,6 @@ class Papan {
 	//TODO : variabel-variabel yang dibutuhkan
     private int row;
     private int col;
-    private int size;
     private char[][] papan;
 
 	public Papan(int row,int col) {
