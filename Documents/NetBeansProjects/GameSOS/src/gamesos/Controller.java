@@ -189,7 +189,7 @@ class Controller implements ActionListener {
         }
         
         public void updatePoint(){
-            if(turnCheck()){
+            if(!turnCheck()){
                 player1.IncrementPoint();
                 myFrame.setPlayerLabel1point(player1.getPoint());
             }else{
