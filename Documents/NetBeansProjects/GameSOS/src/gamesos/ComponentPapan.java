@@ -18,7 +18,6 @@ class ComponentPapan extends JPanel {
 	private Papan papan;
 	private int row;
 	private int col;
-        private int turn;
         private Controller controller;
 
 	public ComponentPapan(Papan papan,int row,int col, Controller controller) {
@@ -35,7 +34,6 @@ class ComponentPapan extends JPanel {
 		for(int i = 0; i<row; i++)
 			for(int j = 0; j<col; j++) {
 				ComponentTitik tmp = new ComponentTitik(papan,i,j);
-                                LinesComponent line = new LinesComponent(papan);
                                 
 				// memberikan Listener ke setiap titik, supaya kalo titiknya diteken akan men-trigger controllernya
 				tmp.addActionListener(controller);

@@ -24,7 +24,6 @@ public class MyFrame extends JFrame {
     private final JPanel inputPanel;      // under the text a container for all the input elements
     private final JPanel player1Panel;
     private final JPanel player2Panel;
-    private final JButton buttonReset;         // and a "send" button
     private JLabel playerLabel1;      // under the text a container for all the input elements
     private JLabel playerLabel2;      // under the text a container for all the input elements
     private JLabel playerLabel1point;      // under the text a container for all the input elements
@@ -55,7 +54,6 @@ public class MyFrame extends JFrame {
         
         // the input components will be put in a separate panel
         inputPanel = new JPanel();
-        buttonReset = new JButton("send");    // and a button at the right, to send the text
 
         // now lets define the default size of our window and its layout:
         setPreferredSize(new Dimension(400, 550));     // let's open the window with a default size of 400x400 pixels
@@ -101,8 +99,6 @@ public class MyFrame extends JFrame {
         // let's set the maximum size of the inputPanel, so it doesn't get too big when the user resizes the window
         inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 75));     // we set the max height to 75 and the max width to (almost) unlimited
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));   // X_Axis will arrange the content horizontally
-
-        inputPanel.add(buttonReset);           // and right the "send" button
         
         //Setting radio Button
         group = new ButtonGroup();

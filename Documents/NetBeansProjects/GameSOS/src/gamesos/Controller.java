@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import static java.nio.file.Files.lines;
 import java.util.Arrays;
+import java.util.Random;
 import javax.swing.*;
 
 class Controller implements ActionListener {
@@ -30,6 +31,9 @@ class Controller implements ActionListener {
         private String winner;
         private boolean gameEnd;
         private static Character[] arrSOS;
+        private Computer computer;
+        private char[] arrColor;
+        private Random randomGenerator;
         
 	public Controller(Papan papan, String nama1, String nama2, MyFrame myFrame) {
             this.papan = papan;
@@ -39,10 +43,14 @@ class Controller implements ActionListener {
                 turn = 0;
                 winner = "";
                 arrSOS = new Character[] {'S','O','S'};
+                computer = new Computer(papan);
+                arrColor = new char[2];
+                arrColor[0] = 'O';
+                arrColor[1] = 'S';
+                randomGenerator =  new Random();
 	}
         
 	public void actionPerformed(ActionEvent e) {
-                turn++;
 		/* ActionEvent e merupakan objek yang telah ditrigger dengan klik mouse 
 		   jadi kita bisa mengakses ComponentTitik yang mana yang diklik dengan casting terlebih dahulu*/
 		ComponentTitik tmp = (ComponentTitik) e.getSource();
@@ -52,28 +60,54 @@ class Controller implements ActionListener {
 		if(papan.getTitik(tmp.getRow(),tmp.getCol()) == ' ') {
 			papan.setTitik(tmp.getRow(),tmp.getCol(),color);
                         checkSOS(tmp.getRow(),tmp.getCol());
-			//cek pemenang setelah menaruh bidak pada titik
-			checkWinner();	
 		}
-                
-                gameEnd = true;
                 updateTurn();
-                checkGameEnd();
+                if(turnCheck()){
+                    for(int i = 0; i<papan.getCol();i++){
+                        for(int j = 0; j<papan.getCol();j++){
+                        }    
+                    }
+                    computerTurn();
+               }
+                myFrame.repaint();
 	}
 
+        public void computerTurn(){
+                    ComponentTitik titik = computer.getBestMove();
+                    System.out.println("click "+titik.getCol()+","+titik.getRow());
+                    ComponentTitik tmp = titik;
+                    
+                    int index = randomGenerator.nextInt(arrColor.length);
+                    color = arrColor[index];
+                    if(papan.getTitik(tmp.getRow(),tmp.getCol()) == ' ') {
+                            papan.setTitik(tmp.getRow(),tmp.getCol(),color);
+                            titik.doClick();
+                            myFrame.repaint();
+                            checkSOS(tmp.getRow(),tmp.getCol());
+                    }
+                    updateTurn();
+                
+        }
+        
         public void checkGameEnd(){
             outerloop:
             for(int i = 0; i<papan.getRow(); i++) {
 			for(int j = 0; j<papan.getCol(); j++) {
 				if(papan.getTitik(i, j) == ' '){
                         gameEnd = false;
-                        break outerloop;
+                        return;
                     }
 		}
             }
             
             if(gameEnd){
-                JOptionPane.showMessageDialog(null, "Game berakhir", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);   
+                JOptionPane.showMessageDialog(null, "Game berakhir \n Pemenang adalah "+checkWinner(), "InfoBox:", JOptionPane.INFORMATION_MESSAGE);  
+                turn = 0;
+                player1.setPoint(0);
+                player2.setPoint(0);
+                papan.resetPapan();
+                myFrame.setTurnLabelNama(player1.getNama());
+                myFrame.repaint();
             }
         }
         
@@ -101,7 +135,6 @@ class Controller implements ActionListener {
                 } 
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        System.out.println("get point horinzontal");
                         break outerloop;
                 }
             }
@@ -116,7 +149,6 @@ class Controller implements ActionListener {
                 }
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        System.out.println("get point vertical");
                         break outerloop2;
                 }
             }
@@ -132,7 +164,6 @@ class Controller implements ActionListener {
                 }
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        System.out.println("get point diagonal negatif");
                         break outerloop3;
                 }
             }
@@ -148,15 +179,9 @@ class Controller implements ActionListener {
                 }   
                 if(compareArrays(arrTmp)){
                         updatePoint();
-                        System.out.println("get point diagonal positif");
                         break outerloop4;
                 }
             }
-            System.out.print("Isi arrTmp : ");
-                for(int k=0;k<3;k++){
-                    System.out.print(arrTmp[k]+"|");
-                }
-            System.out.println("=============================================================");
         }
         
         public static boolean compareArrays(Character[] arr1) {
@@ -174,11 +199,14 @@ class Controller implements ActionListener {
         }
         
         public void updateTurn(){
-            if(!turnCheck()){
+            if(turnCheck()){
                 myFrame.setTurnLabelNama(player1.getNama());
             }else{
                 myFrame.setTurnLabelNama(player2.getNama());
             }
+            turn++;
+            gameEnd = true;
+            checkGameEnd();
         }
         
         public boolean turnCheck(){
